@@ -1,0 +1,35 @@
+package Controller ;
+
+import Globals.GlobalData ;
+import Globals.CurrentUser ;
+
+import Enum.Role ;
+import Service.UserService ;
+
+rule "UserLogin"
+	agenda-group "Login"
+	when
+		$currentUser : CurrentUser(role==Role.EMPTY)
+		$id : Integer()
+		$username : String()
+		$check : Boolean()
+		eval($check==true)
+	then
+		System.out.println("(UPDATED ***) Enter userlogin update "+$username+" | "+$id+" | "+$check);
+		$currentUser.setName($username);
+		$currentUser.setRole(Role.CUSTOMER);
+		$currentUser.setId($id);
+		update($currentUser);
+end
+
+rule "UserLogout"
+	agenda-group "Logout"
+	when
+		$currentUser : CurrentUser(role!=Role.EMPTY)		
+	then
+		System.out.println("(UPDATED) Enter logout update");
+		$currentUser.setName("");
+		$currentUser.setRole(Role.EMPTY);
+		$currentUser.setId(-1);
+		update($currentUser);
+end

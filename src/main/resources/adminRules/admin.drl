@@ -1,0 +1,22 @@
+package Controller ;
+
+import Globals.CurrentUser ;
+
+import Enum.Role ;
+
+import java.util.Map;
+
+rule "AdminLogin"
+	agenda-group "Login"
+	when
+		currentUser : CurrentUser(role==Role.EMPTY)
+		$map : Map(this["username"] == this["password"])
+		$id : Integer()
+	then
+		System.out.println(currentUser.getRole());
+		currentUser.setRole(Role.ADMIN) ;
+		currentUser.setId($id);
+		currentUser.setName($map.get("username").toString());
+		System.out.println(currentUser.getRole());
+		update(currentUser);
+end

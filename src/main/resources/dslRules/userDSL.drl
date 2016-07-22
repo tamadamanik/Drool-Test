@@ -1,0 +1,29 @@
+//created on: Jul 1, 2016
+package dslrule ;
+
+
+import Globals.GlobalData ;
+import Globals.CurrentUser ;
+
+import Enum.Role ;
+import Service.UserService ;
+
+expander testDsl.dsl 
+
+rule "User_Login_DSL"
+    when
+        //conditions
+        Check if the user not logged in
+        Get user logged in Id
+        Get user logged in username
+        Get validation result from the service
+        Check if validation is true
+    then
+        //actions
+		Log data
+		Set user logged in username
+		Set user logged in Id
+		Set user logged in Status to Customer
+		Update user logged in data
+end
+
